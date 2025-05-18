@@ -624,14 +624,18 @@
       document.getElementById('pet2-location').textContent = `World: ${otherWorldNumber}, Zone: ${otherZoneNumber}`;
 
       document.getElementById('popup').style.display = 'block';
-      
-      document.getElementById('pets-container').style.cursor = 'not-allowed';
 
+      document.getElementById('pets-container').style.pointerEvents = 'none';
+      document.getElementById('hint-btn').style.pointerEvents = 'none';
+      document.getElementById('hint-btn').style.cursor = 'not-allowed'; // Optional: Change cursor to indicate it's disabled
     }
 
     function closePopup() {
       document.getElementById('popup').style.display = 'none';
-      document.getElementById('pets-container').style.cursor = 'pointer';
+
+      document.getElementById('pets-container').style.pointerEvents = 'auto';
+      document.getElementById('hint-btn').style.pointerEvents = 'auto';
+      document.getElementById('hint-btn').style.cursor = 'pointer'; // Restore cursor to default
     }
 
     function createRarityHTML(rarityData) {
