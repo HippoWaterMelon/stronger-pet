@@ -378,7 +378,10 @@
   </div>
 
   <div id="pets-container" class="pets-container">
-    Loading pets...
+    <span class="outlined-text">
+      <span class="text-outline">Loading Pets...</span>
+      <span class="text-fill">Loading Pets...</span>
+    </span>
   </div>
 
   <div id="hint-counter" style="font-size: 18px; font-weight: bold;">
@@ -398,7 +401,7 @@
     <div class="pet-container">
 
       <div class="pet-box" id="pet1-box">
-        <div id="pet1-name" class="pet-name"></div>
+        <div id="pet1-name-popup" class="pet-name"></div>
         <img id="pet1-img" src="" alt="Pet 1">
         <div id="pet1-power" class="pet-power"></div>
         <div id="pet1-rarity" class="rarity-tag"></div>
@@ -407,7 +410,7 @@
       </div>
 
       <div class="pet-box" id="pet2-box">
-        <div id="pet2-name" class="pet-name"></div>
+        <div id="pet2-name-popup" class="pet-name"></div>
         <img id="pet2-img" src="" alt="Pet 1">
         <div id="pet2-power" class="pet-power"></div>
         <div id="pet2-rarity" class="rarity-tag"></div>
@@ -756,7 +759,7 @@
     };
 
     function openPopup(title, chosen, other) {
-      document.getElementById('pet1-name').textContent = chosen.configName;
+      document.getElementById('pet1-name-popup').textContent = chosen.configName;
       document.getElementById('pet1-img').src = resolveImageURL(chosen.configData.thumbnail);
       document.getElementById('pet1-power').textContent = `Power: ${abbreviateNumber(chosen.configData.cachedPower)}`;
       const r1 = document.getElementById('pet1-rarity');
@@ -767,7 +770,7 @@
       const chosenZoneNumber = chosen.configData?.fromZoneNumber ?? "Event";
       document.getElementById('pet1-location').textContent = `World: ${chosenWorldNumber}, Zone: ${chosenZoneNumber}`;
     
-      document.getElementById('pet2-name').textContent = other.configName;
+      document.getElementById('pet2-name-popup').textContent = other.configName;
       document.getElementById('pet2-img').src = resolveImageURL(other.configData.thumbnail);
       document.getElementById('pet2-power').textContent = `Power: ${abbreviateNumber(other.configData.cachedPower)}`;
       const r2 = document.getElementById('pet2-rarity');
