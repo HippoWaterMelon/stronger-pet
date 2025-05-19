@@ -11,6 +11,57 @@
       padding: 20px;
     }
 
+    body::before {
+      content: "";
+      position: fixed;
+      z-index: -1;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: calc(100vw + 15px); height: calc(100vh + 15px);
+      background-image: var(--bg-url, url('./bg/1.png'));
+      background-size: cover;
+      background-position: center;
+      filter: blur(5px);
+      pointer-events: none;
+    }
+
+    .outlined-text {
+      position: relative;
+      display: inline-block;
+      font-size: inherit;
+      font-weight: inherit;
+      font-family: inherit;
+      line-height: inherit;
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+    }
+
+    .text-outline {
+      position: absolute;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      font: inherit;
+      line-height: inherit;
+      color: transparent;
+      -webkit-text-stroke: 2.5px black;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      white-space: pre-wrap;
+    }
+
+    .text-fill {
+      position: relative;
+      font: inherit;
+      line-height: inherit;
+      z-index: 1;
+      background: inherit;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: white;
+      color: white;
+      white-space: pre-wrap;
+    }
+
     h1 {
       font-family: 'Fredoka One', sans-serif;
       font-size: 36px;
@@ -38,7 +89,7 @@
       margin: 0 auto;
       transition: transform 0.3s ease;
     }
-    
+
     @media (max-width: 768px) {
       .pets-container {
         flex-direction: column;
@@ -46,7 +97,7 @@
       }
 
       .pet img {
-        height: 140px; /* Smaller images for mobile */
+        height: 140px;
       }
     }
 
@@ -227,7 +278,7 @@
       height: 1em;
       vertical-align: middle;
     }
-    
+
     #score-counter img.emoji {
       height: 1em;
       vertical-align: middle;
@@ -248,7 +299,7 @@
       transition: transform 0.3s ease;
       margin-top: 10px;
     }
-    
+
     #hint-btn .btn-outline {
       position: absolute;
       top: 50%;
@@ -267,7 +318,7 @@
       width: 100%;
       transition: transform 0.3s ease;
     }
-    
+
     #hint-btn .btn-text {
       position: relative;
       z-index: 1;
@@ -282,11 +333,11 @@
       line-height: inherit;
       transition: transform 0.3s ease;
     }
-    
+
     #hint-btn:hover {
       transform: scale(1.1);
     }
-    
+
     #hint-btn.disabled {
       background: linear-gradient(to bottom, #63a310, #2c6d01);
       color: #ccc;
@@ -294,59 +345,116 @@
       cursor: not-allowed;
       box-shadow: 0px 3px 0 0 #0f2700;
     }
-    
+
     #hint-btn.disabled .btn-outline {
       -webkit-text-stroke: 5px #0f2700;
     }
-    
+
     #hint-btn.disabled .btn-text {
       -webkit-text-fill-color: #cccccc;
     }
-
   </style>
 </head>
 <body>
-  <h1>Which Pet Do You Think Is More Powerful?</h1>
+  <h1 style="font-size:36px; font-family:'Fredoka One',sans-serif;">
+    <span class="outlined-text">
+      <span class="text-outline" style="-webkit-text-stroke: 4px #000000;">Which Pet Do You Think Is Stronger?</span>
+      <span class="text-fill">Which Pet Do You Think Is Stronger?</span>
+    </span>
+  </h1>
+
   <div id="score-counter" style="font-size: 18px; font-weight: bold; margin-bottom: 20px;">
-  🏆 Score: 0 🏆
+    <span class="outlined-text">
+      <span class="text-outline" id="score-outline">🏆 Score: 0 🏆</span>
+      <span class="text-fill" id="score-fill">🏆 Score: 0 🏆</span>
+    </span>
   </div>
-  
+
   <div id="streak-counter" style="font-size: 18px; font-weight: bold; margin-bottom: 20px;">
-    🔥 Current Streak: 0 🔥
+    <span class="outlined-text">
+      <span class="text-outline" id="streak-outline">🔥 Current Streak: 0 🔥</span>
+      <span class="text-fill" id="streak-fill">🔥 Current Streak: 0 🔥</span>
+    </span>
   </div>
 
   <div id="pets-container" class="pets-container">
     Loading pets...
   </div>
-  
+
   <div id="hint-counter" style="font-size: 18px; font-weight: bold;">
-    Hints remaining: 3
+    <span class="outlined-text">
+      <span class="text-outline" id="hint-outline">Hints Remaining: 3</span>
+      <span class="text-fill" id="hint-fill">Hints Remaining: 3</span>
+    </span>
   </div>
-  
+
   <button id="hint-btn">
     <span class="btn-outline">Hint</span>
     <span class="btn-text">Hint</span>
   </button>
-    
+
   <div id="popup" class="popup">
     <h2 id="popup-title">Result</h2>
     <div class="pet-container">
+
       <div class="pet-box" id="pet1-box">
-        <div id="pet1-name" class="pet-name"></div>
+        <div id="pet1-name" class="pet-name">
+          <span class="outlined-text">
+            <span class="text-outline"></span>
+            <span class="text-fill"></span>
+          </span>
+        </div>
         <img id="pet1-img" src="" alt="Pet 1">
-        <div id="pet1-power" class="pet-power"></div>
+        <div id="pet1-power" class="pet-power">
+          <span class="outlined-text">
+            <span class="text-outline"></span>
+            <span class="text-fill"></span>
+          </span>
+        </div>
         <div id="pet1-rarity" class="rarity-tag"></div>
-        <div id="pet1-exists" class="exists"></div>
-        <div id="pet1-location" class="exists"></div>
+        <div id="pet1-exists" class="exists">
+          <span class="outlined-text">
+            <span class="text-outline"></span>
+            <span class="text-fill"></span>
+          </span>
+        </div>
+        <div id="pet1-location" class="exists">
+          <span class="outlined-text">
+            <span class="text-outline"></span>
+            <span class="text-fill"></span>
+          </span>
+        </div>
       </div>
+
       <div class="pet-box" id="pet2-box">
-        <div id="pet2-name" class="pet-name"></div>
+        <div id="pet2-name" class="pet-name">
+          <span class="outlined-text">
+            <span class="text-outline"></span>
+            <span class="text-fill"></span>
+          </span>
+        </div>
         <img id="pet2-img" src="" alt="Pet 2">
-        <div id="pet2-power" class="pet-power"></div>
+        <div id="pet2-power" class="pet-power">
+          <span class="outlined-text">
+            <span class="text-outline"></span>
+            <span class="text-fill"></span>
+          </span>
+        </div>
         <div id="pet2-rarity" class="rarity-tag"></div>
-        <div id="pet2-exists" class="exists"></div>
-        <div id="pet2-location" class="exists"></div>
+        <div id="pet2-exists" class="exists">
+          <span class="outlined-text">
+            <span class="text-outline"></span>
+            <span class="text-fill"></span>
+          </span>
+        </div>
+        <div id="pet2-location" class="exists">
+          <span class="outlined-text">
+            <span class="text-outline"></span>
+            <span class="text-fill"></span>
+          </span>
+        </div>
       </div>
+
     </div>
     <button class="close-btn" id="next-btn">
       <span class="btn-outline">Next</span>
@@ -378,11 +486,11 @@
 
     function abbreviateNumber(value) {
       if (value >= 1e12) {
-      const trillions = value / 1e12;
-      return trillions >= 100
-        ? Math.floor(trillions) + "t"
-        : trillions.toFixed(1).replace(/\.0$/, "") + "t";
-      }   
+        const trillions = value / 1e12;
+        return trillions >= 100
+          ? Math.floor(trillions) + "t"
+          : trillions.toFixed(1).replace(/\.0$/, "") + "t";
+      }
       if (value >= 1e9) {
         const billions = value / 1e9;
         return billions >= 100
@@ -448,14 +556,17 @@
         );
       });
     }
-    
+
     const totalHints = 3;
-    
+
     function updateHintCounter() {
       const remaining = Math.max(totalHints - hintStep, 0);
-      const counterEl = document.getElementById('hint-counter');
-      counterEl.textContent = `Hints remaining: ${remaining}`;
-    
+
+      const hintText = `Hints Remaining: ${remaining}`;
+
+      document.getElementById('hint-outline').textContent = hintText;
+      document.getElementById('hint-fill').textContent = hintText;
+
       const hintButton = document.getElementById('hint-btn');
       if (remaining === 0) {
         hintButton.classList.add('disabled');
@@ -466,15 +577,27 @@
       }
     }
 
+    function addHint(containerId, text) {
+      const hintDiv = document.createElement('div');
+      hintDiv.className = 'hint-info';
+      hintDiv.innerHTML = `
+        <span class="outlined-text">
+          <span class="text-outline">${text}</span>
+          <span class="text-fill">${text}</span>
+        </span>
+      `;
+      document.getElementById(containerId).appendChild(hintDiv);
+    }
+
     function displayHint() {
       if (!pet1 || !pet2) return;
-    
+
       [pet1, pet2].forEach((pet, idx) => {
         const petEl = document.getElementById(`pet${idx + 1}`);
-        
+
         const hintAlreadyShown = petEl.querySelectorAll('.hint-info').length >= 3;
         if (hintAlreadyShown) return;
-    
+
         if (hintStep === 0) {
           const rarityEl = document.createElement('div');
           rarityEl.className = 'hint-info';
@@ -482,49 +605,82 @@
           rarityEl.appendChild(rarityHTML);
           petEl.appendChild(rarityEl);
         }
-    
+
         if (hintStep === 1) {
           const exists = abbreviateNumber(existsCountsByName[pet.configName] || 0);
           const el = document.createElement('div');
           el.className = 'hint-info';
-          el.textContent = `Exists: ${exists}`;
+          el.innerHTML = `
+            <span class="outlined-text">
+              <span class="text-outline">Exists: ${exists}</span>
+              <span class="text-fill">Exists: ${exists}</span>
+            </span>
+          `;
           petEl.appendChild(el);
         }
-    
+
         if (hintStep === 2) {
-          // const questionMarks = '?'.repeat(pet.configData.cachedPower.toString().length);
-          const questionMarks = pet.configData.fromWorldNumber;
+          const world = pet.configData.fromWorldNumber;
           const el = document.createElement('div');
           el.className = 'hint-info';
-          el.textContent = `World ${questionMarks}`;
+          el.innerHTML = `
+            <span class="outlined-text">
+              <span class="text-outline">World ${world}</span>
+              <span class="text-fill">World ${world}</span>
+            </span>
+          `;
           petEl.appendChild(el);
         }
       });
-    
+
       if (hintStep < totalHints) {
         hintStep++;
       }
-      
+
       updateHintCounter();
-      
+
       score--;
       score = Math.max(0, score);
       updateScoreDisplay();
-    }    
-    
+    }
+
     function resetHints() {
       hintStep = 0;
       ['pet1', 'pet2'].forEach(id => {
-      const petEl = document.getElementById(id);
-      if (petEl) {
-        petEl.querySelectorAll('.hint-info').forEach(hintEl => hintEl.remove());
-      }
-    });
+        const petEl = document.getElementById(id);
+        if (petEl) {
+          petEl.querySelectorAll('.hint-info').forEach(hintEl => hintEl.remove());
+        }
+      });
       hintButton.classList.remove('disabled');
       hintButton.disabled = false;
       updateHintCounter();
     }
-    
+
+    function pickPets(pets) {
+      if (pets.length < 2) return [null, null];
+      let tries = 0;
+      while (tries < 100) {
+        const [p1, p2] = [...pets].sort(() => 0.5 - Math.random()).slice(0, 2);
+        const abbr1 = abbreviateNumber(+p1.configData.cachedPower);
+        const abbr2 = abbreviateNumber(+p2.configData.cachedPower);
+        if (abbr1 !== abbr2 && +p1.configData.cachedPower !== +p2.configData.cachedPower) {
+          return [p1, p2];
+        }
+        tries++;
+      }
+      return [...pets].sort(() => 0.5 - Math.random()).slice(0, 2);
+    }
+
+    function setOutlinedText(containerId, text) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const outline = container.querySelector('.text-outline');
+      const fill = container.querySelector('.text-fill');
+      if (outline) outline.textContent = text;
+      if (fill) fill.textContent = text;
+    }
+
     function displayRandomPets() {
       petsContainer.innerHTML = '';
 
@@ -533,7 +689,8 @@
         return;
       }
 
-      const [p1, p2] = [...petsData].sort(() => 0.5 - Math.random()).slice(0, 2);
+      const [p1, p2] = pickPets(petsData);
+
       pet1 = p1;
       pet2 = p2;
       const power1 = +p1.configData.cachedPower;
@@ -544,11 +701,21 @@
       petsContainer.innerHTML = `
         <div class="pet" id="pet1">
           <img src="${resolveImageURL(p1.configData.thumbnail)}" alt="${p1.configName}">
-          <div class="pet-name">${p1.configName}</div>
+          <div class="pet-name" id="pet1-name">
+            <span class="outlined-text">
+              <span class="text-outline">${p1.configName}</span>
+              <span class="text-fill">${p1.configName}</span>
+            </span>
+          </div>
         </div>
         <div class="pet" id="pet2">
           <img src="${resolveImageURL(p2.configData.thumbnail)}" alt="${p2.configName}">
-          <div class="pet-name">${p2.configName}</div>
+          <div class="pet-name" id="pet2-name">
+            <span class="outlined-text">
+              <span class="text-outline">${p2.configName}</span>
+              <span class="text-fill">${p2.configName}</span>
+            </span>
+          </div>
         </div>
       `;
 
@@ -564,8 +731,8 @@
         audio.play();
       };
       document.getElementById('pet2').onclick = () => {
-         if (p2 === correctPet) {
-          document.getElementById('correct-audio').play();          updateScoreDisplay();
+        if (p2 === correctPet) {
+          document.getElementById('correct-audio').play();
         } else {
           document.getElementById('incorrect-audio').play();
         }
@@ -580,49 +747,78 @@
       currentStreak = isCorrect ? currentStreak + 1 : 0;
       score = isCorrect ? score + 1 : score;
       updateScoreDisplay();
-      const streakEl = document.getElementById('streak-counter');
-      streakEl.innerHTML = `🔥 Current Streak: ${currentStreak} 🔥`;
-      twemoji.parse(streakEl, {
-        folder: '72x72',
-        ext: '.png',
-        base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/'
-      });
+
+      const streakOut = document.getElementById('streak-outline');
+      const streakTxt = document.getElementById('streak-fill');
+
+      const streakText = `🔥 Current Streak: ${currentStreak} 🔥`;
+
+      document.getElementById('streak-outline').textContent = streakText;
+      document.getElementById('streak-fill').textContent = streakText;
+
+      if (window.twemoji) {
+        twemoji.parse(streakOut, {
+          folder: '72x72',
+          ext: '.png',
+          base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/'
+        });
+
+        twemoji.parse(streakTxt, {
+          folder: '72x72',
+          ext: '.png',
+          base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/'
+        });
+      }
     };
-    
+
     function updateScoreDisplay() {
-      const scoreEl = document.getElementById('score-counter');
-      scoreEl.innerHTML = `🏆 Score: ${score} 🏆`;
-      twemoji.parse(scoreEl, {
-        folder: '72x72',
-        ext: '.png',
-        base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/'
-      });
+      const scoreOut = document.getElementById('score-outline');
+      const scoreTxt = document.getElementById('score-fill')
+
+      const scoreText = `🏆 Score: ${score} 🏆`;
+
+      document.getElementById('score-outline').textContent = scoreText;
+      document.getElementById('score-fill').textContent = scoreText;
+
+      if (window.twemoji) {
+        twemoji.parse(scoreOut, {
+          folder: '72x72',
+          ext: '.png',
+          base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/'
+        });
+
+        twemoji.parse(scoreTxt, {
+          folder: '72x72',
+          ext: '.png',
+          base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/'
+        });
+      }
     };
 
     function openPopup(title, chosen, other) {
-      document.getElementById('popup-title').textContent = title;
-      document.getElementById('pet1-name').textContent = chosen.configName;
+      setOutlinedText('pet1-name', chosen.configName);
       document.getElementById('pet1-img').src = resolveImageURL(chosen.configData.thumbnail);
-      document.getElementById('pet1-power').textContent = `Power: ${abbreviateNumber(chosen.configData.cachedPower)}`;
+      setOutlinedText('pet1-power', `Power: ${abbreviateNumber(chosen.configData.cachedPower)}`);
       const r1 = document.getElementById('pet1-rarity');
       r1.innerHTML = '';
       r1.appendChild(createRarityHTML(chosen.configData.rarity));
-      document.getElementById('pet1-exists').textContent = `Exists: ${abbreviateNumber(existsCountsByName[chosen.configName] || 0)}`;
+      setOutlinedText('pet1-exists', `Exists: ${abbreviateNumber(existsCountsByName[chosen.configName] || 0)}`);
       const chosenWorldNumber = chosen.configData?.fromWorldNumber ?? "Event";
       const chosenZoneNumber = chosen.configData?.fromZoneNumber ?? "Event";
-      document.getElementById('pet1-location').textContent = `World: ${chosenWorldNumber}, Zone: ${chosenZoneNumber}`;
+      setOutlinedText('pet1-location', `World: ${chosenWorldNumber}, Zone: ${chosenZoneNumber}`);
 
-      document.getElementById('pet2-name').textContent = other.configName;
+      setOutlinedText('pet2-name', other.configName);
       document.getElementById('pet2-img').src = resolveImageURL(other.configData.thumbnail);
-      document.getElementById('pet2-power').textContent = `Power: ${abbreviateNumber(other.configData.cachedPower)}`;
+      setOutlinedText('pet2-power', `Power: ${abbreviateNumber(other.configData.cachedPower)}`);
       const r2 = document.getElementById('pet2-rarity');
       r2.innerHTML = '';
       r2.appendChild(createRarityHTML(other.configData.rarity));
-      document.getElementById('pet2-exists').textContent = `Exists: ${abbreviateNumber(existsCountsByName[other.configName] || 0)}`;
+      setOutlinedText('pet2-exists', `Exists: ${abbreviateNumber(existsCountsByName[other.configName] || 0)}`);
       const otherWorldNumber = other.configData?.fromWorldNumber ?? "Event";
       const otherZoneNumber = other.configData?.fromZoneNumber ?? "Event";
-      document.getElementById('pet2-location').textContent = `World: ${otherWorldNumber}, Zone: ${otherZoneNumber}`;
+      setOutlinedText('pet2-location', `World: ${otherWorldNumber}, Zone: ${otherZoneNumber}`);
 
+      document.getElementById('popup-title').textContent = title;
       document.getElementById('popup').style.display = 'block';
 
       document.getElementById('pets-container').style.pointerEvents = 'none';
@@ -672,7 +868,7 @@
       const audio = document.getElementById('click-audio');
       audio.play();
     });
-    
+
     document.getElementById('hint-btn').addEventListener('click', () => {
       displayHint();
       const audio = document.getElementById('click-audio');
@@ -692,22 +888,28 @@
       };
       document.head.appendChild(script);
     };
+
+    const bgNum = Math.floor(Math.random() * 6) + 1;
+    const bgUrl = `url('./resources/bg/${bgNum}.png')`;
+
+    document.body.style.setProperty('--bg-url', bgUrl);
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundPosition = "center";
   </script>
 </body>
 
 <audio id="click-audio">
-  <source src="./click.mp3" type="audio/mpeg">
+  <source src="./sounds/click.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
 <audio id="correct-audio">
-  <source src="./correct.mp3" type="audio/mpeg">
+  <source src="./sounds/correct.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
 <audio id="incorrect-audio">
-  <source src="./incorrect.mp3" type="audio/mpeg">
+  <source src="./sounds/incorrect.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
-
 </html>
