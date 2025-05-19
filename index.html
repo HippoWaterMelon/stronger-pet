@@ -398,61 +398,21 @@
     <div class="pet-container">
 
       <div class="pet-box" id="pet1-box">
-        <div id="pet1-name" class="pet-name">
-          <span class="outlined-text">
-            <span class="text-outline"></span>
-            <span class="text-fill"></span>
-          </span>
-        </div>
+        <div id="pet1-name" class="pet-name"></div>
         <img id="pet1-img" src="" alt="Pet 1">
-        <div id="pet1-power" class="pet-power">
-          <span class="outlined-text">
-            <span class="text-outline"></span>
-            <span class="text-fill"></span>
-          </span>
-        </div>
+        <div id="pet1-power" class="pet-power"></div>
         <div id="pet1-rarity" class="rarity-tag"></div>
-        <div id="pet1-exists" class="exists">
-          <span class="outlined-text">
-            <span class="text-outline"></span>
-            <span class="text-fill"></span>
-          </span>
-        </div>
-        <div id="pet1-location" class="exists">
-          <span class="outlined-text">
-            <span class="text-outline"></span>
-            <span class="text-fill"></span>
-          </span>
-        </div>
+        <div id="pet1-exists" class="exists"></div>
+        <div id="pet1-location" class="exists"></div>
       </div>
 
       <div class="pet-box" id="pet2-box">
-        <div id="pet2-name" class="pet-name">
-          <span class="outlined-text">
-            <span class="text-outline"></span>
-            <span class="text-fill"></span>
-          </span>
-        </div>
-        <img id="pet2-img" src="" alt="Pet 2">
-        <div id="pet2-power" class="pet-power">
-          <span class="outlined-text">
-            <span class="text-outline"></span>
-            <span class="text-fill"></span>
-          </span>
-        </div>
+        <div id="pet2-name" class="pet-name"></div>
+        <img id="pet2-img" src="" alt="Pet 1">
+        <div id="pet2-power" class="pet-power"></div>
         <div id="pet2-rarity" class="rarity-tag"></div>
-        <div id="pet2-exists" class="exists">
-          <span class="outlined-text">
-            <span class="text-outline"></span>
-            <span class="text-fill"></span>
-          </span>
-        </div>
-        <div id="pet2-location" class="exists">
-          <span class="outlined-text">
-            <span class="text-outline"></span>
-            <span class="text-fill"></span>
-          </span>
-        </div>
+        <div id="pet2-exists" class="exists"></div>
+        <div id="pet2-location" class="exists"></div>
       </div>
 
     </div>
@@ -796,34 +756,34 @@
     };
 
     function openPopup(title, chosen, other) {
-      setOutlinedText('pet1-name', chosen.configName);
+      document.getElementById('pet1-name').textContent = chosen.configName;
       document.getElementById('pet1-img').src = resolveImageURL(chosen.configData.thumbnail);
-      setOutlinedText('pet1-power', `Power: ${abbreviateNumber(chosen.configData.cachedPower)}`);
+      document.getElementById('pet1-power').textContent = `Power: ${abbreviateNumber(chosen.configData.cachedPower)}`;
       const r1 = document.getElementById('pet1-rarity');
       r1.innerHTML = '';
       r1.appendChild(createRarityHTML(chosen.configData.rarity));
-      setOutlinedText('pet1-exists', `Exists: ${abbreviateNumber(existsCountsByName[chosen.configName] || 0)}`);
+      document.getElementById('pet1-exists').textContent = `Exists: ${abbreviateNumber(existsCountsByName[chosen.configName] || 0)}`;
       const chosenWorldNumber = chosen.configData?.fromWorldNumber ?? "Event";
       const chosenZoneNumber = chosen.configData?.fromZoneNumber ?? "Event";
-      setOutlinedText('pet1-location', `World: ${chosenWorldNumber}, Zone: ${chosenZoneNumber}`);
-
-      setOutlinedText('pet2-name', other.configName);
+      document.getElementById('pet1-location').textContent = `World: ${chosenWorldNumber}, Zone: ${chosenZoneNumber}`;
+    
+      document.getElementById('pet2-name').textContent = other.configName;
       document.getElementById('pet2-img').src = resolveImageURL(other.configData.thumbnail);
-      setOutlinedText('pet2-power', `Power: ${abbreviateNumber(other.configData.cachedPower)}`);
+      document.getElementById('pet2-power').textContent = `Power: ${abbreviateNumber(other.configData.cachedPower)}`;
       const r2 = document.getElementById('pet2-rarity');
       r2.innerHTML = '';
       r2.appendChild(createRarityHTML(other.configData.rarity));
-      setOutlinedText('pet2-exists', `Exists: ${abbreviateNumber(existsCountsByName[other.configName] || 0)}`);
+      document.getElementById('pet2-exists').textContent = `Exists: ${abbreviateNumber(existsCountsByName[other.configName] || 0)}`;
       const otherWorldNumber = other.configData?.fromWorldNumber ?? "Event";
       const otherZoneNumber = other.configData?.fromZoneNumber ?? "Event";
-      setOutlinedText('pet2-location', `World: ${otherWorldNumber}, Zone: ${otherZoneNumber}`);
-
+      document.getElementById('pet2-location').textContent = `World: ${otherWorldNumber}, Zone: ${otherZoneNumber}`;
+    
       document.getElementById('popup-title').textContent = title;
       document.getElementById('popup').style.display = 'block';
-
+    
       document.getElementById('pets-container').style.pointerEvents = 'none';
       document.getElementById('hint-btn').style.pointerEvents = 'none';
-      document.getElementById('hint-btn').style.cursor = 'not-allowed'; // Optional: Change cursor to indicate it's disabled
+      document.getElementById('hint-btn').style.cursor = 'not-allowed';
     }
 
     function closePopup() {
